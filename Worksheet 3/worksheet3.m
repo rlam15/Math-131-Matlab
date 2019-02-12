@@ -6,18 +6,19 @@ assert(sign(f(a)) ~= sign(f(b)));
 assert(a<b)
 assert(~isinf(a) && ~isinf(b));
 
-% format long;
-bisection(f,1,2,5,15)
-
+bisection(f,1,2,5,12)
 
 function result = bisection(f, a, b, tol, maxits)
-    
+% f is function
+% a,b is the interval
+% tol is the tolerance before we encounter an error (27)
+% maxits is the number of ints allowed
     
     if (f(a) == 0)
         result = a;
         return;
     elseif f(b) == 0
-        result = b
+        result = b;
         return;
     end
     
@@ -34,6 +35,5 @@ function result = bisection(f, a, b, tol, maxits)
             a = c; %b stays unchanged
         end
     end
+    result = c;
 end
-
-
