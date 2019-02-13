@@ -1,13 +1,15 @@
-f = @(x) (x.^3)+(4*x.^2)-10;
+f = @(x) sin(x);
 a = 1;
-b = 2;
+b = 5;
+tol = 3;
+maxits = 19;
 
 assert(sign(f(a)) ~= sign(f(b)));
-assert(a<b)
+assert(a<b);
 assert(~isinf(a) && ~isinf(b));
 
-bisection(f,1,2,5,12)
-
+bisection(f,a,b,tol,maxits)
+%3.14159
 function result = bisection(f, a, b, tol, maxits)
 % f is function
 % a,b is the interval
@@ -34,6 +36,9 @@ function result = bisection(f, a, b, tol, maxits)
         else 
             a = c; %b stays unchanged
         end
+        if (c >= 3.14159) 
     end
+    fprintf("We are at interation "+ maxits)
+    
     result = c;
 end

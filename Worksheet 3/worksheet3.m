@@ -1,13 +1,14 @@
-f = @(x) (x.^3)+(4*x.^2)-10;
+f = @(x) tan(x);
 a = 1;
 b = 2;
+tol = 0;
+maxits = 30;
 
 assert(sign(f(a)) ~= sign(f(b)));
-assert(a<b)
+assert(a<b);
 assert(~isinf(a) && ~isinf(b));
 
-bisection(f,1,2,5,12)
-
+bisection(f,a,b,tol,maxits)
 function result = bisection(f, a, b, tol, maxits)
 % f is function
 % a,b is the interval
@@ -23,8 +24,9 @@ function result = bisection(f, a, b, tol, maxits)
     end
     
     for i=1:maxits
+        fprintf("We are at interation "+ i + "\n");
         c = (a+b)/2;
-        if f(c) == 0 || (b-a)/2 >= tol
+        if f(c) == 0 || (b-a)/2 < tol
            result = c;
            return;
         end
@@ -34,6 +36,7 @@ function result = bisection(f, a, b, tol, maxits)
         else 
             a = c; %b stays unchanged
         end
+        
+        result = c;
     end
-    result = c;
 end
