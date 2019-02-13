@@ -1,8 +1,8 @@
-f = @(x) tan(x);
+f = @(x) sin(x);
 a = 1;
-b = 2;
-tol = 0;
-maxits = 30;
+b = 4;
+tol = 0.00002;
+maxits = 20;
 
 assert(sign(f(a)) ~= sign(f(b)));
 assert(a<b);
@@ -36,7 +36,10 @@ function result = bisection(f, a, b, tol, maxits)
         else 
             a = c; %b stays unchanged
         end
-        
+            
         result = c;
     end
+        if ((b-a)/2 > tol)
+            fprintf("We're going to need more iterations!")
+        end
 end
