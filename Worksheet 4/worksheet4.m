@@ -3,14 +3,15 @@ g = @(x) (x^2) - 2
 %The root of these two functions are the same
 
 %p0 is initial approximation
-fp()
+fp(g, 1, 50)
 
 function p = fp(g, p0, maxits)
     i = 1;
     while (i < maxits)
         p = g(p0);
-        if(abs(p-p0) < 1)
-           print("Value of P RN is:" + p);
+        p
+        if(abs(p-p0) <= 0)
+           fprintf("SOMETHING WENT WRONG");
         end
         i = i+1;
         p0 = p;  
