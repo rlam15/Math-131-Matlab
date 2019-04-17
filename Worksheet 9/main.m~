@@ -1,13 +1,16 @@
-f = @(x) sin(x);
-h = @(x) 1/10^x;
-X = linspace(-5,5,100);
-
-centered = @(x,h) (f(x+h)-f(x-h))/2*h;
-
-for i=1:15
-    plot(i) = centered(1,)
+ function a = linterp_poly(X, Y)
+  a = zeros(1,numel(X));
+  for i = 1:numel(X)
+      aa = poly(X([1:i-1 i+1:end]));
+      a = a + Y(i) * aa / polyval(aa, X(i));
+  end
 end
 
 
-plot(X,forward(X,h),'-',X,backward(X,h),'^',X,forward(X,h),'g*');
-legend('Forward Diff Formula','Backward Diff Formula', 'Centered Diff Formula');
+function y = num_diff(X,Y,x,d)
+    lagrange_coeff = linterp_poly[X,Y];
+    derive_coefficients = lagrange_coeff;
+    for i = 1:d
+        derive_coefficients = polyd
+    end
+end

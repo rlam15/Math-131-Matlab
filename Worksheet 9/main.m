@@ -1,15 +1,20 @@
-f = @(x) sin(x);
-h = @(x) 1/10^x;
+f = @(x) 5*x.^3 + 2*x.^2 + 3*x;
+X = 1:4;
+Y = f(X);
+y = num_diff(X,Y,2,3);
 
-centered = @(x,h) (f(x+h)-f(x-h))/2*h;
-
-for i=1:15
-    graph(i) = centered(1,h(i));
+function a = linterp_poly(X, Y)
+  a = zeros(1,numel(X));
+  for i = 1:numel(X)
+      aa = poly(X([1:i-1 i+1:end]));
+      a = a + Y(i) * aa / polyval(aa, X(i));
+  end
 end
-% As h grows smaller and smaller, the function has a more accurate reading.
-% Approaches 0
-plot(graph);
 
-
-% plot(X,forward(X,h),'-',X,backward(X,h),'^',X,forward(X,h),'g*');
-% legend('Forward Diff Formula','Backward Diff Formula', 'Centered Diff Formula');
+function y = num_diff(X,Y,x,d)
+    p = linterp_poly(X,Y);
+    for i = 1:d
+        p = polyder(p);
+    end
+    y = polyval(p,x);
+end
