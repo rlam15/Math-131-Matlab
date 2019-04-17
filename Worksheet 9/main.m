@@ -1,20 +1,11 @@
-f = @(x) 5*x.^3 + 2*x.^2 + 3*x;
-X = 1:4;
-Y = f(X);
-y = num_diff(X,Y,2,3);
-
-function a = linterp_poly(X, Y)
-  a = zeros(1,numel(X));
-  for i = 1:numel(X)
-      aa = poly(X([1:i-1 i+1:end]));
-      a = a + Y(i) * aa / polyval(aa, X(i));
-  end
-end
-
-function y = num_diff(X,Y,x,d)
-    p = linterp_poly(X,Y);
-    for i = 1:d
-        p = polyder(p);
-    end
-    y = polyval(p,x);
-end
+x = linspace(-5,5,100);
+h = 10/99;
+f2 = @(x) x.^3; 
+f2_exact = 3*x.^2;
+forward2 = (f2(x+h)-f(x))/h;
+backward2 = (f2(x)-f(x-h))/h;
+centered2 = (f2(x+h)-f2(x-h))/(2*h);
+forwardError2 = abs(f2_exact-forward2);
+backwardError2 = abs(f2_exact-backward2);
+centeredError2 = abs(f2_exact-centered2);
+semilogy(x,forwardError2,'b-',x, backwardError2,'r-o', x, centeredError2,'g-*');
