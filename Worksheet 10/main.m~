@@ -1,0 +1,66 @@
+f = @(x) exp(x);
+a = 0;
+b = 4;
+
+% Exact Value
+exact = integral(f,a,b);
+
+for k = 1:20
+    n(k) = 2^k;
+    %Estimation
+    midpoint_estimation = midpoint(f,a,b,2^k+1);
+    trap_estimation = trapazodial(f,a,b,2^k+1);
+    simpson_estimation= simpsons(f,a,b,2^k+1);
+    
+    % Abs = Estimation - Exact
+    midpointError(k) = abs(exact - midpoint_estimation);
+    trapError(k) = abs(exact - trap_estimation);
+    simpsonError(k) = abs(exact - simpson_estimation);
+end
+
+%Graph Making
+loglog(n,midpointError,n,trapError,n,simpsonError);
+
+
+
+function val = simpsons(f,a,b,n)
+%f=function for which integration have to do
+%a=upper limit of integration
+%b=lower limit of integration
+%n=number of subintervals
+h=(b-a)/n;
+zs=f(a)+f(b); 
+xx=a:h:b;
+for i = 1:(numel(xx) - 1)/2
+val=double((h/3)*zs);
+end
+
+function val = trapazodial(f,a,b,n)
+% f is the function for integration
+% a is the lower limit of integration
+% b is the upper limit of integration
+% n is the number of trapizoidal interval in [a,b]
+h=(b-a)/n; %x interval
+val=0;
+xx=linspace(a,b,n+1);
+%loop for trapizoidal integration
+for i=2:n
+    val=val+2*double(f(xx(i)));
+end
+val=(h/2)*(val+f(a)+f(b));
+end
+
+function val = midpoint(f,a,b,n)
+% f is the function for integration
+% a is the lower limit of integration
+% b is the upper limit of integration
+% n is the number of trapizoidal interval in [a,b]
+dx=(b-a)/n; %x interval
+val=0;
+x=linspace(a,b,n+1);
+for i=1:n
+    x_mid(i)=(x(i+1)+x(i))/2;
+    val=val+double(f(x_mid(i)));
+end
+val=dx*val;
+end
