@@ -1,9 +1,9 @@
-f = @(x) exp(x);
+f = @(x) sqrt(1+cos(x).^2);
 a = 0;
-b = 1;
+b = 48;
 
 % Exact Value
-exact = exp(b)-exp(a);
+exact = integral(f,a,b);
 
 for k = 1:20
     n(k) = 2^k+1;
@@ -19,8 +19,11 @@ for k = 1:20
 end
 
 %Graph Making
-loglog(n,midpointError,n,trapError,n,simpsonError);
-legend("midpoint","trap","simp");
+loglog(n,midpointError,'-*',n,trapError,'-*',n,simpsonError,'-*');
+legend("Composite Midpoint Rule","Composite Trapezodial Rule","Composite Simpson's Rule");
+ylabel('Absolute Error');
+xlabel('Number of Integrand Evaluations');
+title('Question 01');
 
 
 
